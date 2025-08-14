@@ -4,61 +4,129 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pedido de Brigadeiros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
   <style>
-    :root{--brand:#2A68D8;--bg:#f7f8fa;--card:#fff;--text:#1e1e1e;--muted:#6b7280;--border:#e5e7eb}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;background:var(--bg);color:var(--text)}
-    .wrap{max-width:960px;margin:24px auto 80px;padding:0 16px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 3px 12px rgba(0,0,0,.04)}
-    h1{font-size:24px;margin:0 0 12px}
-    h2{font-size:18px;margin:8px 0 10px}
-    .grid{display:grid;gap:12px}
-    .grid-2{grid-template-columns:1fr 1fr}
-    .grid-3{grid-template-columns:repeat(3,1fr)}
-    label{font-weight:600;font-size:14px}
-    input[type="text"],input[type="date"],select,textarea{
-      width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:#fff
+    :root{
+      --brand:#ff6bb5;        /* rosa chiclete */
+      --brand-2:#9b8cff;      /* lilás */
+      --bg:#fff7fb;           /* rosinha bem claro */
+      --card:#ffffff;
+      --text:#2a2a2a;
+      --muted:#7b8190;
+      --border:#f0e6f1;
+      --ring:rgba(255,107,181,.25);
+      --ok:#2fbf71;
     }
-    textarea{min-height:90px;resize:vertical}
-    .section{border:1px dashed var(--border);border-radius:12px;padding:12px}
-    .row{display:grid;grid-template-columns:1fr;gap:10px}
-    .inline{display:flex;align-items:center;gap:8px}
-    .btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
-    .btn.primary{background:var(--brand);color:#fff;border:none}
-    .btn.small{padding:8px 10px;border-radius:8px}
-    .item{border:1px solid var(--border);border-radius:12px;padding:10px;background:#fff}
-    .item-header{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-bottom:8px}
-    .muted{color:var(--muted);font-size:13px}
-    .totals{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;font-weight:600;margin-top:10px}
-    pre{white-space:pre-wrap;background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;font-size:13px;overflow:auto;margin-top:12px}
-    @media (min-width:760px){.row.grid-2{grid-template-columns:1fr 1fr}}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+      color:var(--text); background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(255,107,181,.12), transparent 60%),
+        radial-gradient(1000px 500px at 110% 0%, rgba(155,140,255,.12), transparent 60%),
+        var(--bg);
+    }
+    .wrap{max-width:980px; margin:24px auto 96px; padding:0 16px}
+    .header{
+      display:flex; align-items:center; gap:14px; margin-bottom:14px;
+      padding:12px 12px; border-radius:16px;
+    }
+    .logo{
+      display:flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg, rgba(255,107,181,.12), rgba(155,140,255,.12));
+      border:1px solid var(--border);
+      padding:10px 12px; border-radius:14px;
+      box-shadow:0 6px 20px rgba(0,0,0,.06);
+    }
+    .logo img{height:36px; width:auto; display:block}
+    .brand-title{font-weight:700; letter-spacing:.2px}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:18px;
+      box-shadow:0 10px 30px rgba(155,140,255,.08), 0 4px 14px rgba(255,107,181,.08);
+      animation: pop .25s ease-out;
+    }
+    @keyframes pop{from{transform:translateY(4px); opacity:.0} to{transform:none; opacity:1}}
+    h1{font-size:24px; margin:0 0 6px}
+    h2{font-size:18px; margin:8px 0 10px}
+    .muted{color:var(--muted); font-size:13px}
+
+    .grid{display:grid; gap:12px}
+    .grid-2{grid-template-columns:1fr 1fr}
+    .row{display:grid; grid-template-columns:1fr; gap:10px}
+    @media (min-width:760px){ .row.grid-2{grid-template-columns:1fr 1fr} }
+
+    label{font-weight:600; font-size:14px}
+    input[type="text"], input[type="date"], select{
+      width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:12px; font-size:15px; background:#fff;
+      outline:none; transition: box-shadow .15s, border-color .15s, transform .04s;
+    }
+    input:focus, select:focus{
+      border-color:var(--brand); box-shadow:0 0 0 6px var(--ring);
+    }
+    input[type="number"]{ width:100%; max-width:95px }
+
+    .section{ border:1px dashed var(--border); border-radius:14px; padding:12px; background:#fff; }
+    .inline{display:flex; align-items:center; gap:8px}
+    .btn{
+      appearance:none; border:1px solid var(--border); background:#fff; color:#333;
+      border-radius:12px; padding:10px 14px; font-weight:600; cursor:pointer;
+      transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn:hover{box-shadow:0 8px 18px rgba(155,140,255,.15)}
+    .btn:active{transform:translateY(1px)}
+    .btn.small{padding:8px 10px; border-radius:10px}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--brand), var(--brand-2));
+      border:none; color:#fff; box-shadow:0 10px 24px rgba(255,107,181,.25);
+    }
+    .badges{display:flex; gap:8px; flex-wrap:wrap}
+    .badge{
+      font-size:12px; font-weight:600; color:#5f5a66; background:#fff; border:1px solid var(--border);
+      padding:6px 10px; border-radius:999px
+    }
+    .item{border:1px solid var(--border); border-radius:14px; padding:12px; background:#fff}
+    .item-header{display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:8px}
+    .totals{
+      display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;
+      padding:12px; border:1px dashed var(--border); border-radius:14px; background:linear-gradient(180deg, #fff, #fff7fb);
+      font-weight:700; margin-top:12px
+    }
+    .pill{padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:#fff; font-size:13px}
+    .success{color:#0c7e46}
+    pre{
+      white-space:pre-wrap; background:#0f1225; color:#e6e9ff; padding:14px; border-radius:12px; font-size:13px; overflow:auto; margin-top:12px
+    }
+    .footer-note{font-size:12px; color:var(--muted); margin-top:8px}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
-      <h1>Formulário de Pedido — Brigadeiros</h1>
-      <p class="muted">Adicione caixinhas (4 unidades, 1 sabor por unidade) e/ou brigadeiros individuais.</p>
+    <div class="header">
+      <div class="logo">
+        <!-- Se preferir outra logo, troque o src abaixo -->
+        <img src="sandbox:/mnt/data/Black And White Minimalist Typography Personal Logo.svg" alt="Logo">
+        <div class="brand-title">Pedidos — Brigadeiros</div>
+      </div>
+      <div class="badges">
+        <span class="badge">Fofo ✓</span>
+        <span class="badge">Rápido ✓</span>
+        <span class="badge">WhatsApp direto ✓</span>
+      </div>
+    </div>
 
-      <div class="grid row grid-2" style="margin:12px 0">
+    <div class="card">
+      <h1>Montar pedido</h1>
+      <p class="muted">Adicione <b>Caixinhas (4)</b> e/ou <b>Brigadeiros individuais</b>. Cada caixinha permite 4 sabores (1 por unidade). O individual tem 1 sabor e você define a quantidade.</p>
+
+      <div class="grid row grid-2" style="margin:14px 0 12px">
         <div>
           <label for="clientName">Nome do cliente</label>
           <input id="clientName" type="text" placeholder="Ex.: João Silva" />
         </div>
         <div>
-          <label for="orderDate">Data do pedido</label>
-          <input id="orderDate" type="date" />
-        </div>
-      </div>
-
-      <div class="grid row grid-2" style="margin:0 0 12px">
-        <div>
           <label for="deliveryDate">Data da entrega</label>
           <input id="deliveryDate" type="date" />
-        </div>
-        <div>
-          <label for="notes">Observações</label>
-          <input id="notes" type="text" placeholder="Ex.: sem granulado, separar por sabores, etc." />
         </div>
       </div>
 
@@ -69,7 +137,7 @@
           <button id="addBox" class="btn small">+ Adicionar caixinha</button>
         </div>
         <div id="boxesList" class="grid"></div>
-        <p class="muted">Cada caixinha tem 4 unidades. Você pode repetir sabores.</p>
+        <p class="muted" style="margin-top:6px">Dica: pode repetir sabores na mesma caixinha se quiser.</p>
       </div>
 
       <!-- INDIVIDUAIS -->
@@ -83,17 +151,19 @@
 
       <div class="totals">
         <div>Total de unidades: <span id="totalUnits">0</span></div>
-        <div>Caixinhas: <span id="boxCount">0</span> • Individuais: <span id="singleCount">0</span></div>
+        <div class="pill">Caixinhas: <span id="boxCount">0</span></div>
+        <div class="pill">Individuais: <span id="singleCount">0</span></div>
       </div>
 
-      <div style="margin-top:12px">
+      <div style="margin-top:14px; display:flex; gap:10px; align-items:center">
         <button id="makeOrder" class="btn primary">Gerar Pedido</button>
-        <p class="muted" style="margin-top:6px">O pedido será aberto no WhatsApp: <b>+55 11 97313-3475</b>.</p>
+        <span class="muted">Enviaremos para <b>+55 11 97313-3475</b> ✨</span>
       </div>
 
       <div id="outputWrap" style="display:none">
         <h2>Resumo</h2>
         <pre id="orderText"></pre>
+        <div class="footer-note">Confira o texto acima — o WhatsApp abre automaticamente com essa mensagem pronta.</div>
       </div>
     </div>
   </div>
@@ -119,7 +189,9 @@
     const create = (tag, attrs={})=>{
       const el = document.createElement(tag);
       Object.entries(attrs).forEach(([k,v])=>{
-        if(k==="class") el.className=v; else if(k==="text") el.textContent=v; else el.setAttribute(k,v);
+        if(k==="class") el.className=v;
+        else if(k==="text") el.textContent=v;
+        else el.setAttribute(k,v);
       });
       return el;
     };
@@ -130,9 +202,8 @@
       return sel;
     };
 
-    // Prefill datas
+    // Datas padrão
     const todayISO = new Date().toISOString().slice(0,10);
-    $("#orderDate").value = todayISO;
     $("#deliveryDate").value = todayISO;
 
     // Persistir nome do cliente
@@ -148,13 +219,13 @@
     const outputWrap = $("#outputWrap");
     const orderTextPre = $("#orderText");
 
-    // Adiciona uma CAIXINHA (4 sabores) + quantidade (opcional, padrão 1)
+    // Adiciona uma CAIXINHA (4 sabores) + quantidade (padrão 1)
     function addBox(initial){
       const wrapper = create("div", {class:"item"});
       const header = create("div", {class:"item-header"});
       const title = create("div", {text:"Caixinha (4)"});
       const right = create("div", {class:"inline"});
-      const qtyInput = create("input", {type:"number", min:"1", value: (initial?.qty||1), style:"width:88px"});
+      const qtyInput = create("input", {type:"number", min:"1", value:(initial?.qty||1)});
       const qtyLabel = create("span", {class:"muted", text:"Qtd."});
       const removeBtn = create("button", {class:"btn small", text:"Remover"});
       right.append(qtyLabel, qtyInput, removeBtn);
@@ -162,9 +233,7 @@
 
       const grid = create("div", {class:"grid grid-2"});
       const s1 = flavorSelect(), s2 = flavorSelect(), s3 = flavorSelect(), s4 = flavorSelect();
-      if(initial?.flavors){
-        [s1,s2,s3,s4].forEach((s,i)=>{ s.value = initial.flavors[i] || ""; });
-      }
+      if(initial?.flavors){ [s1,s2,s3,s4].forEach((s,i)=>{ s.value = initial.flavors[i] || ""; }); }
       grid.append(s1,s2,s3,s4);
 
       wrapper.append(header, grid);
@@ -181,7 +250,7 @@
       const header = create("div", {class:"item-header"});
       const title = create("div", {text:"Brigadeiro individual"});
       const right = create("div", {class:"inline"});
-      const qtyInput = create("input", {type:"number", min:"1", value:(initial?.qty||1), style:"width:88px"});
+      const qtyInput = create("input", {type:"number", min:"1", value:(initial?.qty||1)});
       const qtyLabel = create("span", {class:"muted", text:"Qtd."});
       const removeBtn = create("button", {class:"btn small", text:"Remover"});
       right.append(qtyLabel, qtyInput, removeBtn);
@@ -238,44 +307,25 @@
 
     function buildOrder(){
       const clientName = $("#clientName").value.trim() || "(sem nome)";
-      const orderDate = $("#orderDate").value || "";
       const deliveryDate = $("#deliveryDate").value || "";
-      const notes = $("#notes").value.trim();
-
       const boxes = getBoxes();
       const singles = getSingles();
 
       const items = [];
       boxes.forEach((b, idx)=>{
-        items.push({
-          kind: "Caixinha (4)",
-          index: idx+1,
-          qty: b.qty,
-          flavors: b.flavors
-        });
+        items.push({ kind:"Caixinha (4)", index:idx+1, qty:b.qty, flavors:b.flavors });
       });
       singles.forEach((s, idx)=>{
-        items.push({
-          kind: "Brigadeiro individual",
-          index: idx+1,
-          qty: s.qty,
-          flavor: s.flavor
-        });
+        items.push({ kind:"Brigadeiro individual", index:idx+1, qty:s.qty, flavor:s.flavor });
       });
 
       const totalUnits = boxes.reduce((sum,b)=> sum + b.qty*4, 0) + singles.reduce((sum,i)=> sum + i.qty, 0);
 
       return {
         clientName,
-        orderDate,
-        orderDate_br: ddmmyyyy(orderDate),
         deliveryDate,
         deliveryDate_br: ddmmyyyy(deliveryDate),
-        notes,
-        boxes,
-        singles,
-        items,
-        totalUnits
+        boxes, singles, items, totalUnits
       };
     }
 
@@ -283,16 +333,13 @@
       const header =
 `Pedido de Brigadeiros
 Cliente: ${order.clientName}
-Data do pedido: ${order.orderDate_br || "-"}
 Data da entrega: ${order.deliveryDate_br || "-"}
 
 `;
-
       const boxLines = order.boxes.length
-        ? order.boxes.map((b,i)=> {
-            const flavors = b.flavors.filter(Boolean);
-            const flavorList = flavors.length ? flavors.join(", ") : "-";
-            return `Caixinha ${i+1} (4): sabores [${flavorList}] — Qtd: ${b.qty} (unid: ${b.qty*4})`;
+        ? order.boxes.map((b,i)=>{
+            const list = (b.flavors && b.flavors.length) ? b.flavors.join(", ") : "-";
+            return `Caixinha ${i+1} (4): sabores [${list}] — Qtd: ${b.qty} (unid: ${b.qty*4})`;
           }).join("\n")
         : "(sem caixinhas)";
 
@@ -300,29 +347,21 @@ Data da entrega: ${order.deliveryDate_br || "-"}
         ? order.singles.map((s,i)=> `Individual ${i+1}: ${s.flavor||"-"} — Qtd: ${s.qty}`).join("\n")
         : "(sem individuais)";
 
-      const obs = order.notes ? `\nObservações: ${order.notes}` : "";
       const total = `\nTotal de unidades: ${order.totalUnits}`;
-
-      return `${header}Caixinhas:\n${boxLines}\n\nIndividuais:\n${singleLines}${total}${obs}`;
+      return `${header}Caixinhas:\n${boxLines}\n\nIndividuais:\n${singleLines}${total}`;
     }
 
     $("#makeOrder").addEventListener("click", ()=>{
       const order = buildOrder();
-
-      // Validações simples
       if(order.boxes.length===0 && order.singles.length===0){
         alert("Adicione ao menos 1 caixinha ou 1 individual.");
         return;
       }
-
       const text = toText(order);
-      orderTextPre.textContent = text;
-      outputWrap.style.display = "block";
+      $("#orderText").textContent = text;
+      $("#outputWrap").style.display = "block";
 
-      // salvar último pedido (opcional)
-      localStorage.setItem("brig_lastOrder_v2", JSON.stringify(order));
-
-      // abrir WhatsApp
+      // Abre WhatsApp
       const url = `https://wa.me/${YOUR_WHATS_NUMBER}?text=${encodeURIComponent(text)}`;
       window.open(url, "_blank");
     });
